@@ -1,22 +1,22 @@
 <?php
+    require_once('controllers/homepageController.php');
 
-    // define('HOMEPAGE_PATH', '/');
-    // define('CONTACT_PATH', '/contact');
+    try {
+        if(isset($_GET['action']) && '' !== $_GET['action']) {
+            $action = $_GET['action'];
 
-    const HOMEPAGE_PATH = '/';
-    const CONTACT_PATH = '/contact';
+            if ('figure' === $_GET['controller']) {
+                $figureController = new FigureController();
 
-    require_once('views/base.php');
-
-    var_dump($_SERVER['REQUEST_URI']);
-
-    switch($_SERVER['REQUEST_URI']) {
-        case HOMEPAGE_PATH:
-            echo 'ACCUEIL';
-            break;
-        case CONTACT_PATH:
-            echo 'CONTACT';
-            break;
+                if ('create' === $action) {
+                    $figureController->create();
+                }
+            }
+        } else {
+            (new HomepageController())->home();
+        }
+    } catch (\Exception $exception) {
+        throw new \Exception($exception->getMessage());
     }
 
     /**
